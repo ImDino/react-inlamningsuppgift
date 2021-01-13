@@ -36,6 +36,8 @@ export default function LoginPage() {
         setFormData({...formData, [e.target.name]: e.target.value})
     }
 
+
+
     return (
         <div>
             <form onSubmit={handleOnSubmit}>
@@ -50,10 +52,19 @@ export default function LoginPage() {
 }
 
 /*
+-TARGETS
+
 1. if WEBB20 doesn't exist, redirect to login page
 
 2. if WEBB20 token exists in localstorage, /api-token-verify/.
 
 3. if manually entering login-page and api token verification is ok, redirect to home
 
+-ACTIONS
+
+1. function for token verification
+2. create state for logged-in
+3. log out button and it's function
+4. re-think useContext
+5. re-directing depending on logged-in state
 */
