@@ -1,15 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, Route, Switch } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import CustomerCreatePage from './pages/CustomerCreatePage'
 import CustomerDetailPage from './pages/CustomerDetailPage'
 import CustomerListPage from './pages/CustomerListPage'
 import CustomerUpdatePage from './pages/CustomerUpdatePage'
 import LoginPage from './pages/LoginPage'
+import HomePage from './pages/HomePage'
 
 export default function App() {
+  const history = useHistory()
 
-  function getMe() {
+  useEffect(() => {
+    console.log("app.js")
+    
+  }, [])
+
+  const [ userAuthStatus, setUserAuthStatus] = useState({
+    loggedIn: false
+  })
+
+  function userAuthentication() {
     const url = "https://frebi.willandskill.eu/api/v1/me/"
+    
     const token = localStorage.getItem("WEBB20")
 
     fetch(url, {
@@ -18,11 +31,20 @@ export default function App() {
         "Authorization" : `Bearer ${token}`
       }
     })
-    .then(res => res.json())
-    .then(data => console.log(data))
-  }
+    .then(res => checkStatus(res))
+    .then(data => {
+      if (data) {
+        // setCustomerList(data.results)
+      }
+    })
 
-  console.log("hej")
+    function checkStatus(fetchResponse) {
+      if (!fetchResponse.ok) {
+        history.push('/login')
+      }
+      return fetchResponse.json()
+    }
+  }
 
   return (
     <div>
@@ -37,6 +59,10 @@ export default function App() {
 
       <Switch>
 
+        <Route path="/home">
+          <HomePage />
+        </Route>
+        
         <Route path="/login">
           <LoginPage />
         </Route>
@@ -51,6 +77,10 @@ export default function App() {
 
         <Route path="/customers">
           <CustomerListPage />
+        </Route>
+
+        <Route>
+          {history.push("/login")}
         </Route>
 
       </Switch>

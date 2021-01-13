@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 export default function LoginPage() {
@@ -6,11 +6,13 @@ export default function LoginPage() {
         email: "Dino.Pacariz@yh.nackademin.se",
         password: "javascriptoramverk"
     })
+    const [ loginStatus , setLoginStatus ] = useState({
+        successful: true
+    })
     const history = useHistory()
-    
+
     function handleOnSubmit(e) {
         e.preventDefault()
-        console.clear()
         
         const url = "https://frebi.willandskill.eu/api-token-auth/"
         const payload = {
@@ -25,18 +27,26 @@ export default function LoginPage() {
                 "Content-Type": "application/json"
             }
         })
-        .then(res => res.json())
+        .then(res => checkStatus(res))
         .then(data => {
-            localStorage.setItem("WEBB20", data.token)
-            history.push('/customers')
+            if (data) {
+                localStorage.setItem("WEBB20", data.token)
+                history.push('/home')
+            }
+            setLoginStatus({successful: false})
         })
+
+        function checkStatus(fetchResponse) {
+            if (!fetchResponse.ok) {
+                return null
+            }
+            return fetchResponse.json()
+        }
     }
     
     function handleOnChange(e) {
         setFormData({...formData, [e.target.name]: e.target.value})
     }
-
-
 
     return (
         <div>
@@ -46,6 +56,9 @@ export default function LoginPage() {
                 <label>Password</label>
                 <input name="password" onChange={handleOnChange} />
                 <button type="submit">Log in</button>
+                {loginStatus.successful == false &&
+                    <p>Login failed, please enter a valid Email {"&"} Password </p>
+                }
             </form>
         </div>
     )
