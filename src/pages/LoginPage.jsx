@@ -16,7 +16,6 @@ export default function LoginPage({func}) {
     const history = useHistory()
     function handleOnSubmit(e) {
         e.preventDefault()
-        console.log("fetch login");
         const payload = {
             email: formData.email,
             password: formData.password
@@ -44,7 +43,6 @@ export default function LoginPage({func}) {
     
     useEffect(() => {
         if(loggedIn) {
-            console.log("push home (LoginPage)");
             history.push('/home')
         }
     }, [loggedIn])
