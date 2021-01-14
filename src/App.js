@@ -13,26 +13,27 @@ import ProfilePage from './pages/ProfilePage'
 export default function App() {
   const [ customerList, setCustomerList ] = useState(null)
   const [ loggedIn, setLoggedIn ] = useState(false)
-  const [ appLoaded, setAppLoaded ] = useState(false)
   const history = useHistory()
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      FetchKit.getCurrentUserInfo()
-      .then(res => checkStatus(res))
-      .then(data => {
-        if (data) {
-          console.log(data)
-          setLoggedIn(true)
-        }
-      }) 
+      validateToken()
     }
     else {
       history.push("/login")
     }
   }, [])
-
-  function checkStatus(fetchResponse) {
+  
+  function validateToken() {
+    FetchKit.getCurrentUserInfo()
+    .then(res => checkResponse(res))
+    .then(data => {
+      if (data) {
+        setLoggedIn(true)
+      }
+    }) 
+  }
+  function checkResponse(fetchResponse) {
     if (!fetchResponse.ok) {
       history.push('/login')
       return null
@@ -40,13 +41,19 @@ export default function App() {
     return fetchResponse.json()
   }
   
-
   return (
     <div>
-      {loggedIn &&
-      (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <Link to="/home" className="navbar-brand">My App</Link>
+        {loggedIn
+        ?(
+          <Link to="/home" className="navbar-brand">My App</Link>
+        )
+        :(
+          <span className="navbar-brand">My App</span>
+        )}
+        {loggedIn &&
+        (
+        <>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -57,10 +64,11 @@ export default function App() {
             <Link to="/profile">My Profile</Link>
           </div>
         </div>
+        </>
+        )}
       </nav>
-      )}
 
-      <UserContext.Provider value={{customerList, setCustomerList, loggedIn, setLoggedIn}}>
+      <UserContext.Provider value={{customerList, setCustomerList, loggedIn, setLoggedIn, history}}>
         <Switch>
 
           <Route path="/login">

@@ -2,31 +2,35 @@ import React, { useContext, useEffect } from 'react'
 import CustomerListItem from '../components/CustomerListItem'
 import { UserContext } from '../contexts/UserContext'
 import FetchKit from '../data/fetchKit'
-import { useHistory } from 'react-router-dom'
 
 export default function HomePage() {
-    const { customerList, setCustomerList } = useContext(UserContext)
-    const { loggedIn, setLoggedIn } = useContext(UserContext) // kan ta bort setLoggedin?
-    const history = useHistory()
+    const { customerList, setCustomerList, loggedIn, setLoggedIn, history } = useContext(UserContext)
     
     useEffect(() => {
-        if(loggedIn) {
+        if(localStorage.getItem("token")) {
             getCustomerList()
+        } else {
+            history.push("/login")
         }
-    }, [loggedIn])
+    }, [])
 
     function getCustomerList() {
         FetchKit.getCustomerList()
-        .then(res => checkStatus(res).json())
-        .then(data => setCustomerList(data.results))
+        .then(res => checkResponse(res))
+        .then(data => {
+            if (data) {
+                setCustomerList(data.results)
+            }
+        })
     }
-    function checkStatus(fetchResponse) {
+    function checkResponse(fetchResponse) {
         if (!fetchResponse.ok) {
-          history.push('/login')
-          return null
+            setLoggedIn(false)
+            history.push('/login')
+            return null
         }
-        return fetchResponse
-      }
+        return fetchResponse.json()
+    }
 
     return (
         
@@ -34,7 +38,6 @@ export default function HomePage() {
             {customerList
                 ?(
                     customerList.map((item, index) => {
-                        console.log(item)
                         return <CustomerListItem key={item.id} customerData={item} />
                     })
                 )
@@ -45,3 +48,15 @@ export default function HomePage() {
         </div>
     )
 }
+
+/*
+userinfo & validation & customerlist. alla dessa behövs i homepage, som är startsidan
+
+lösningen på validering i överlag på alla sidor är misslyckade/lyckade fetches
+varje misslyckad fetch visar 
+
+
+GET CURRENT URL
+
+history.location.pathname
+*/

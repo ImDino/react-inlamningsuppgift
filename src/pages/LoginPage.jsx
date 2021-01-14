@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import { UserContext } from '../contexts/UserContext'
 import FetchKit from '../data/fetchKit'
 
@@ -11,9 +10,8 @@ export default function LoginPage({func}) {
     const [ loginStatus , setLoginStatus ] = useState({
         successful: true
     })
-    const { loggedIn, setLoggedIn } = useContext(UserContext)
-    
-    const history = useHistory()
+    const { loggedIn, setLoggedIn, history } = useContext(UserContext)
+
     function handleOnSubmit(e) {
         e.preventDefault()
         const payload = {

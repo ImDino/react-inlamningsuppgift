@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import { UserContext } from '../contexts/UserContext'
 import FetchKit from '../data/fetchKit'
 
 export default function CustomerUpdatePage(props) {
     const customerId = props.match.params.id
     const [ formData, setFormData ] = useState({})
-    const history = useHistory()
+    const { history } = useContext(UserContext)
     
     function getCustomerItem() {
         FetchKit.getCustomerItem(customerId)
