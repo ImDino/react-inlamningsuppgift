@@ -10,8 +10,10 @@ export default function HomePage() {
     const history = useHistory()
 
     useEffect(() => {
-        console.log("loggedIn (HomePage)");
-        getCustomerList()
+        if(loggedIn) {
+            console.log(loggedIn);
+            getCustomerList()
+        }
     }, [loggedIn])
 
     function getCustomerList() {

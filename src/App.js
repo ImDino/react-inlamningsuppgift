@@ -20,7 +20,6 @@ export default function App() {
       FetchKit.getCurrentUserInfo()
       .then(res => checkStatus(res))
       .then(data => {
-        // console.log(data)
         console.log("fetch App")
         if (data) {
           setLoggedIn(true)
@@ -34,7 +33,6 @@ export default function App() {
   }, [])
 
   
-  
   function checkStatus(fetchResponse) {
     if (!fetchResponse.ok) {
       console.log("push login (App.js)")
@@ -43,13 +41,6 @@ export default function App() {
     return fetchResponse.json()
   }
 
-
-  useEffect(() => {
-    console.log("push home (App.js)")
-    history.push('/home')
-  }, [loggedIn])
-    
-    
   return (
     <div>
       <ul>
@@ -89,39 +80,5 @@ export default function App() {
 }
 
 /*
-
-----STATE PROBLEM?
-loggedIn
-authorized
-
-ska authorized avgöra om innehåll visas?
-vilken roll fyller då logged in?
-
-det beror på vilket som kommer först..
-
-vare sig man auto-auktoriseras eller loggar
-in så ska både loggedIn och authorized bli true
-
-authorized ska bestämma om innehåll visas
-loggedIn .. wait
-
-behövs ens logged in?
-är man authorized behövs inte logged in
-och är man authorized så är man logged in
-
-
-----LÖSNINGAR
-authorized-state som finns tillgänglig (useContext) på varje sida,
-authorization triggas när App.js renderats.
-
-ingen annan fetch förrän authorized state ändrats
-
-1. Om token inte finns, skicka en till login
-om token inte finns och man inte är auktoriserad ska innehållet ändå visas
-
-2. om token finns, auktorisera
-3. om auktoriserad fortsätt vara på sidan du är på och visa sidan.
-4. om man manuellt url navigerat till login och man är auktoriserad
-skicka en till home direkt, är man inte auktoriserad men har token, auktorisera
 
 */
