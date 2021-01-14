@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { UserContext } from '../contexts/UserContext'
+import FetchKit from '../data/fetchKit'
 
-export default function LoginPage() {
+export default function LoginPage({func}) {
     const [ formData, setFormData ] = useState({
         email: "Dino.Pacariz@yh.nackademin.se",
         password: "javascriptoramverk"
@@ -9,31 +11,28 @@ export default function LoginPage() {
     const [ loginStatus , setLoginStatus ] = useState({
         successful: true
     })
+    const { loggedIn, setLoggedIn } = useContext(UserContext)
+    
     const history = useHistory()
 
     function handleOnSubmit(e) {
         e.preventDefault()
         
-        const url = "https://frebi.willandskill.eu/api-token-auth/"
         const payload = {
             email: formData.email,
             password: formData.password
         }
         
-        fetch(url, {
-            method: "POST",
-            body: JSON.stringify(payload),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
+        FetchKit.login(payload)
         .then(res => checkStatus(res))
         .then(data => {
             if (data) {
-                localStorage.setItem("WEBB20", data.token)
-                history.push('/home')
+                localStorage.setItem("token", data.token)
+                setLoggedIn(true)
             }
-            setLoginStatus({successful: false})
+            else {
+                setLoginStatus({successful: false})
+            }
         })
 
         function checkStatus(fetchResponse) {
@@ -44,6 +43,11 @@ export default function LoginPage() {
         }
     }
     
+    useEffect(() => {
+        console.log("push home (LoginPage)");
+        history.push('/home')
+    }, [loggedIn])
+
     function handleOnChange(e) {
         setFormData({...formData, [e.target.name]: e.target.value})
     }
@@ -56,28 +60,10 @@ export default function LoginPage() {
                 <label>Password</label>
                 <input name="password" onChange={handleOnChange} />
                 <button type="submit">Log in</button>
-                {loginStatus.successful == false &&
+                {loginStatus.successful === false &&
                     <p>Login failed, please enter a valid Email {"&"} Password </p>
                 }
             </form>
         </div>
     )
 }
-
-/*
--TARGETS
-
-1. if WEBB20 doesn't exist, redirect to login page
-
-2. if WEBB20 token exists in localstorage, /api-token-verify/.
-
-3. if manually entering login-page and api token verification is ok, redirect to home
-
--ACTIONS
-
-1. function for token verification
-2. create state for logged-in
-3. log out button and it's function
-4. re-think useContext
-5. re-directing depending on logged-in state
-*/

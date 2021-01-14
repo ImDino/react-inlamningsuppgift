@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import FetchKit from '../data/fetchKit'
 
 export default function CustomerUpdatePage(props) {
     const customerId = props.match.params.id
@@ -7,15 +8,7 @@ export default function CustomerUpdatePage(props) {
     const history = useHistory()
     
     function getCustomerItem() {
-        const url = `https://frebi.willandskill.eu/api/v1/customers/${customerId}/`
-        const token = localStorage.getItem("WEBB20")
-    
-        fetch(url, {
-            headers: {
-                "Content-Type" : "application/json",
-                "Authorization" : `Bearer ${token}`
-            }
-        })
+        FetchKit.getCustomerItem(customerId)
         .then(res => res.json())
         .then(data => setFormData(data))
     }
@@ -44,17 +37,7 @@ export default function CustomerUpdatePage(props) {
 
     function handleOnSubmit(e) {
         e.preventDefault()
-        const url = `https://frebi.willandskill.eu/api/v1/customers/${customerId}/`
-        const token = localStorage.getItem("WEBB20")
-    
-        fetch(url, {
-            method: "PUT",
-            body: JSON.stringify(formData),
-            headers: {
-                "Content-Type" : "application/json",
-                "Authorization" : `Bearer ${token}`
-            }
-        })
+        FetchKit.updateCustomerItem(customerId, formData)
         .then(() => history.push(`/customers/${customerId}`))
     }
 

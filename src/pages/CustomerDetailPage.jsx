@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import FetchKit from '../data/fetchKit'
 
 export default function CustomerDetailPage(props) {
     const customerId = props.match.params.id
@@ -7,31 +8,14 @@ export default function CustomerDetailPage(props) {
     const history = useHistory()
 
     function getCustomerItem() {
-        const url = `https://frebi.willandskill.eu/api/v1/customers/${customerId}/`
-        const token = localStorage.getItem("WEBB20")
-    
-        fetch(url, {
-            headers: {
-                "Content-Type" : "application/json",
-                "Authorization" : `Bearer ${token}`
-            }
-        })
+        FetchKit.getCustomerItem(customerId)
         .then(res => res.json())
         .then(data => setCustomerItem(data))
     }
 
     function deleteCustomer() {
-        const url = `https://frebi.willandskill.eu/api/v1/customers/${customerId}/`
-        const token = localStorage.getItem("WEBB20")
-    
-        fetch(url, {
-            method: "DELETE",
-            headers: {
-                "Content-Type" : "application/json",
-                "Authorization" : `Bearer ${token}`
-            }
-        })
-        .then(() => history.push('/customers'))
+        FetchKit.deleteCustomerItem(customerId)
+        .then(() => history.push('/home'))
     }
 
     useEffect(() => {
@@ -77,7 +61,7 @@ export default function CustomerDetailPage(props) {
                                 <tr>
                                     <td>Website</td>
                                     <td>
-                                        <a href={customerItem.website} target="_blank">
+                                        <a href={customerItem.website} target="_blank" rel="noreferrer">
                                             {customerItem.website}
                                         </a>
                                     </td>
