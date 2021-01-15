@@ -26,7 +26,7 @@ export default function CustomerCreatePage() {
     function handleOnSubmit(e) {
         e.preventDefault()
         FetchKit.createCustomer(formData)
-        .then(() => history.push('/customers'))
+        .then(() => history.push('/home'))
     }
 
     return (
