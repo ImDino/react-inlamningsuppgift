@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import { Link, Route, Switch, useHistory } from 'react-router-dom'
+import { UserContext } from './contexts/UserContext'
+
 import CustomerCreatePage from './pages/CustomerCreatePage'
 import CustomerDetailPage from './pages/CustomerDetailPage'
 import CustomerUpdatePage from './pages/CustomerUpdatePage'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
-import { UserContext } from './contexts/UserContext'
+import ProfilePage from './pages/ProfilePage'
+
 import FetchKit from './data/fetchKit'
 import 'bootstrap/js/src/collapse.js';
-import ProfilePage from './pages/ProfilePage'
 
 export default function App() {
   const [ customerList, setCustomerList ] = useState(null)
   const [ loggedIn, setLoggedIn ] = useState(false)
-  const history = useHistory()
+  const [ userInfo , setUserInfo ] = useState(null)
 
+  const history = useHistory()
+  
   useEffect(() => {
     if (localStorage.getItem("token")) {
       validateToken()
@@ -30,6 +34,7 @@ export default function App() {
     .then(data => {
       if (data) {
         setLoggedIn(true)
+        setUserInfo(data)
       }
     }) 
   }
@@ -39,6 +44,11 @@ export default function App() {
       return null
     }
     return fetchResponse.json()
+  }
+
+  function logOut() {
+    setLoggedIn(false)
+    localStorage.removeItem("token")
   }
   
   return (
@@ -60,15 +70,16 @@ export default function App() {
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
             <Link to="/home">Home</Link>
-            <Link to="/customers/create">Create customer</Link>
-            <Link to="/profile">My Profile</Link>
+            <Link to="/customers/create">Create Customer</Link>
+            <Link to="/profile">My Profile ({userInfo.firstName+" "+userInfo.lastName})</Link>
+            <Link onClick={logOut} to="/login">Log out</Link>
           </div>
         </div>
         </>
         )}
       </nav>
 
-      <UserContext.Provider value={{customerList, setCustomerList, loggedIn, setLoggedIn, history}}>
+      <UserContext.Provider value={{customerList, setCustomerList, loggedIn, setLoggedIn, history, userInfo}}>
         <Switch>
 
           <Route path="/login">
