@@ -1,19 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { UserContext } from '../contexts/UserContext'
 import FetchKit from '../data/fetchKit'
 
 export default function CustomerDetailPage(props) {
     const customerId = props.match.params.id
     const [ customerItem, setCustomerItem ] = useState(null)
-    const history = useHistory()
+    const [ itemExists, setItemExists] = useState(true)
+    const { history , setListUpToDate } = useContext(UserContext)
 
     function getCustomerItem() {
         FetchKit.getCustomerItem(customerId)
-        .then(res => res.json())
-        .then(data => setCustomerItem(data))
+        .then(data => {
+            if(data) {
+                setCustomerItem(data)
+            }
+            else {
+                setItemExists(false)
+            }
+        })
     }
 
     function deleteCustomer() {
+        setListUpToDate(false)
         FetchKit.deleteCustomerItem(customerId)
         .then(() => history.push('/home'))
     }
@@ -21,9 +30,15 @@ export default function CustomerDetailPage(props) {
     useEffect(() => {
         getCustomerItem()
     }, [])
-
+    
     return (
         <div>
+            {!itemExists && (
+            <>
+                <p>This customer doesn't exist.</p>
+                <Link to={"/home"}>Go back.</Link>
+            </>
+            )}
             {customerItem
                 ?(
                     <div>
@@ -78,7 +93,7 @@ export default function CustomerDetailPage(props) {
                     </div>
                 )
                 :(
-                    <span>Laddar data...</span>
+                    <>{itemExists && <span>Loading Data...</span>}</>
                 )       
             }
         </div>

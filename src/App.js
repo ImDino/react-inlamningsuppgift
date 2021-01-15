@@ -9,45 +9,38 @@ import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import ProfilePage from './pages/ProfilePage'
 
-import FetchKit from './data/fetchKit'
 import 'bootstrap/js/src/collapse.js';
+import FetchKit from './data/fetchKit'
 
 export default function App() {
   const [ customerList, setCustomerList ] = useState(null)
   const [ loggedIn, setLoggedIn ] = useState(false)
   const [ userInfo , setUserInfo ] = useState(null)
-
+  const [ listUpToDate, setListUpToDate ] = useState(false)
   const history = useHistory()
-  
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      validateToken()
+      checkIfSignedIn()
     }
     else {
       history.push("/login")
     }
   }, [])
   
-  function validateToken() {
+  function checkIfSignedIn() {
     FetchKit.getCurrentUserInfo()
-    .then(res => checkResponse(res))
     .then(data => {
       if (data) {
         setLoggedIn(true)
         setUserInfo(data)
       }
-    }) 
-  }
-  function checkResponse(fetchResponse) {
-    if (!fetchResponse.ok) {
-      history.push('/login')
-      return null
-    }
-    return fetchResponse.json()
+    })
   }
 
   function logOut() {
     setLoggedIn(false)
+    setListUpToDate(false)
     localStorage.removeItem("token")
   }
   
@@ -71,7 +64,7 @@ export default function App() {
           <div className="navbar-nav">
             <Link to="/home">Home</Link>
             <Link to="/customers/create">Create Customer</Link>
-            <Link to="/profile">My Profile ({userInfo.firstName+" "+userInfo.lastName})</Link>
+            <Link to="/profile">My Profile ({userInfo && userInfo.firstName+" "+userInfo.lastName})</Link>
             <Link onClick={logOut} to="/login">Log out</Link>
           </div>
         </div>
@@ -79,7 +72,7 @@ export default function App() {
         )}
       </nav>
 
-      <UserContext.Provider value={{customerList, setCustomerList, loggedIn, setLoggedIn, history, userInfo}}>
+      <UserContext.Provider value={{customerList, setCustomerList, loggedIn, setLoggedIn, history, userInfo, setUserInfo, listUpToDate, setListUpToDate}}>
         <Switch>
 
           <Route path="/login">
@@ -113,29 +106,7 @@ export default function App() {
 
 
 TODO gör så loggedIn styr om innehåll visas
-på loginPage ska innehållet visas om både loggedIn är false och token saknas
-
-loginPage loggedIn false med token = dölj sidan
-loginPage loggedIn true = dölj sidan
-loginPage loggedIn true med token = dölj sidan
-NOTE loginPage loggedIn false utan token = visa sidan
-NOTE om token finns men auktorisering failar måste token tas bort innan redirect
-kommer då värdet i denna condition ändras?
-
 TODO dölja hela sidor = helfärgad bakgrund med spinner och lite delay
-
-TODO dölja allt utom navbar
-fult om en likadan spinner flyttas ner till separat div o ligger under 
-navbar som senare flyttas upp.. bättre att det är en animerande gradient?
-
-
-TODO navbar 
-- logout knapp ska ta bort token, ändra loggedIn till false, navigera till login-page
-- visa nuvarande användarens e-mail till vänster om knappen
-- man ska kunna klicka på e-posten för o komma till profilePage
-
-TODO profilePage
-- ska visa all info om användaren
 
 EXTRAs
 sökfunktion, kolla exempelvis https://www.youtube.com/watch?v=XZScIWYIkNw 

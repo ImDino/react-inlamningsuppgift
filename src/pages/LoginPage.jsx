@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../contexts/UserContext'
 import FetchKit from '../data/fetchKit'
 
-export default function LoginPage({func}) {
+export default function LoginPage() {
     const [ formData, setFormData ] = useState({
         email: "Dino.Pacariz@yh.nackademin.se",
         password: "javascriptoramverk"
@@ -10,7 +10,7 @@ export default function LoginPage({func}) {
     const [ loginStatus , setLoginStatus ] = useState({
         successful: true
     })
-    const { loggedIn, setLoggedIn, history } = useContext(UserContext)
+    const { loggedIn, setLoggedIn, history, setUserInfo } = useContext(UserContext)
 
     function handleOnSubmit(e) {
         e.preventDefault()
@@ -20,25 +20,28 @@ export default function LoginPage({func}) {
         }
         
         FetchKit.login(payload)
-        .then(res => checkStatus(res))
         .then(data => {
             if (data) {
                 localStorage.setItem("token", data.token)
                 setLoggedIn(true)
+                getUserInfo()
             }
             else {
                 setLoginStatus({successful: false})
             }
         })
-
-        function checkStatus(fetchResponse) {
-            if (!fetchResponse.ok) {
-                return null
-            }
-            return fetchResponse.json()
-        }
     }
     
+    function getUserInfo() {
+        FetchKit.getCurrentUserInfo()
+        .then(data => {
+            if (data) {
+                setLoggedIn(true)
+                setUserInfo(data)
+            }
+        })
+    }
+
     useEffect(() => {
         if(loggedIn) {
             history.push('/home')

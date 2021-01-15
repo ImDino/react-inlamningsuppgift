@@ -8,6 +8,13 @@ function token() {
     return localStorage.getItem("token")
 }
 
+function checkResponse(fetchResponse) {
+    if (!fetchResponse.ok) {
+      return null
+    }
+    return fetchResponse.json()
+}
+
 export default class FetchKit {
 
     static login(payload) {
@@ -18,6 +25,7 @@ export default class FetchKit {
                 "Content-Type": "application/json"
             }
         })
+        .then(res => checkResponse(res))
     }
 
     static getCurrentUserInfo() {
@@ -27,6 +35,7 @@ export default class FetchKit {
             "Authorization": `Bearer ${token()}`
           }
         })
+        .then(res => checkResponse(res))
     }
 
     static getCustomerItem(customerId) {
@@ -36,6 +45,7 @@ export default class FetchKit {
                 "Authorization" : `Bearer ${token()}`
             }
         })
+        .then(res => checkResponse(res))
     }
 
     static updateCustomerItem(customerId, formData) {
@@ -47,6 +57,7 @@ export default class FetchKit {
                 "Authorization" : `Bearer ${token()}`
             }
         })
+        .then(res => checkResponse(res))
     }
 
     static getCustomerList() {
@@ -56,6 +67,7 @@ export default class FetchKit {
                 "Authorization" : `Bearer ${token()}`
             }
         })
+        .then(res => checkResponse(res))
     }
 
     static deleteCustomerItem(customerId) {
@@ -77,5 +89,6 @@ export default class FetchKit {
                 "Authorization" : `Bearer ${token()}`
             }
         })
+        .then(res => checkResponse(res))
     }
 }

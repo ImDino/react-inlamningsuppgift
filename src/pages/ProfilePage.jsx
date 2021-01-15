@@ -1,11 +1,12 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
 
 export default function ProfilePage() {
-    const { userInfo , history, setLoggedIn } = useContext(UserContext)
+    const { userInfo , history, setLoggedIn, setListUpToDate } = useContext(UserContext)
 
     function logOut() {
         setLoggedIn(false)
+        setListUpToDate(false)
         localStorage.removeItem("token")
         history.push("/login")
     }

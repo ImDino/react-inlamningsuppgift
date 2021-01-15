@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { UserContext } from '../contexts/UserContext'
 import FetchKit from '../data/fetchKit'
 
 export default function CustomerCreatePage() {
     const [ formData , setFormData] = useState({})
-    const history = useHistory()
+    const { history, setListUpToDate } = useContext(UserContext)
 
     function renderInput(name, label, type) {
         return (
@@ -25,6 +25,7 @@ export default function CustomerCreatePage() {
 
     function handleOnSubmit(e) {
         e.preventDefault()
+        setListUpToDate(false)
         FetchKit.createCustomer(formData)
         .then(() => history.push('/home'))
     }

@@ -5,11 +5,10 @@ import FetchKit from '../data/fetchKit'
 export default function CustomerUpdatePage(props) {
     const customerId = props.match.params.id
     const [ formData, setFormData ] = useState({})
-    const { history } = useContext(UserContext)
+    const { history , setListUpToDate } = useContext(UserContext)
     
     function getCustomerItem() {
         FetchKit.getCustomerItem(customerId)
-        .then(res => res.json())
         .then(data => setFormData(data))
     }
 
@@ -37,6 +36,7 @@ export default function CustomerUpdatePage(props) {
 
     function handleOnSubmit(e) {
         e.preventDefault()
+        setListUpToDate(false)
         FetchKit.updateCustomerItem(customerId, formData)
         .then(() => history.push(`/customers/${customerId}`))
     }
