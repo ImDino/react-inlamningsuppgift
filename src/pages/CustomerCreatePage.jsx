@@ -8,14 +8,18 @@ export default function CustomerCreatePage() {
 
     function renderInput(name, label, type) {
         return (
-            <div>
-                <label>{label}</label>
-                <input
+            <tr>
+                <td>
+                    <label>{label}</label>
+                </td>
+                <td>
+                    <input
                     type={type || "text"}
                     name={name}
                     onChange={handleOnChange}
-                />
-            </div>
+                    />
+                </td>
+            </tr>
         )
     }
 
@@ -27,21 +31,28 @@ export default function CustomerCreatePage() {
         e.preventDefault()
         setListUpToDate(false)
         FetchKit.createCustomer(formData)
-        .then(() => history.push('/home'))
+        .then(data => {
+            if (data.status === 403) alert("You cannot have more than 10 customers")
+            history.push('/home')
+        })
     }
 
     return (
         <div>
             <h1>Create Customer</h1>
             <form onSubmit={handleOnSubmit}>
-                {renderInput("name", "Customer Name")}
-                {renderInput("email", "Customer Email", "email")}
-                {renderInput("organisationNr", "Organisation Number")}
-                {renderInput("paymentTerm", "Payment Term", "number")}
-                {renderInput("phoneNumber", "Phone Number", "tel")}
-                {renderInput("reference", "Reference")}
-                {renderInput("vatNr", "VAT Number")}
-                {renderInput("website", "Website", "url")}
+                <table>
+                    <tbody>
+                        {renderInput("name", "Customer Name")}
+                        {renderInput("email", "Customer Email", "email")}
+                        {renderInput("organisationNr", "Organisation Number")}
+                        {renderInput("paymentTerm", "Payment Term", "number")}
+                        {renderInput("phoneNumber", "Phone Number", "tel")}
+                        {renderInput("reference", "Reference")}
+                        {renderInput("vatNr", "VAT Number")}
+                        {renderInput("website", "Website", "url")}
+                    </tbody>
+                </table>
                 <button type="submit">Create Customer</button>
             </form>
             <code>{JSON.stringify(formData)}</code>

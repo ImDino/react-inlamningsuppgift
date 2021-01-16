@@ -20,10 +20,10 @@ export default function App() {
   const history = useHistory()
 
   useEffect(() => {
-    if (history.location.pathname == "/") {
+    if (history.location.pathname === "/") {
       history.push("/login")
     }
-    if (localStorage.getItem("token")) {
+    else if (localStorage.getItem("token")) {
       checkIfSignedIn()
     }
     else {

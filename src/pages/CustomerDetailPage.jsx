@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import FormDisplay from '../components/FormDisplay'
 import { UserContext } from '../contexts/UserContext'
 import FetchKit from '../data/fetchKit'
 
@@ -43,47 +44,7 @@ export default function CustomerDetailPage(props) {
                 ?(
                     <div>
                         <h1>{customerItem.name}</h1>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td>Organisation Number</td>
-                                    <td>{customerItem.organisationNr}</td>
-                                </tr>
-                                <tr>
-                                    <td>Payment Term</td>
-                                    <td>{customerItem.paymentTerm}</td>
-                                </tr>
-                                <tr>
-                                    <td>Phone Number</td>
-                                    <td>{customerItem.phoneNumber}</td>
-                                </tr>
-                                <tr>
-                                    <td>Reference</td>
-                                    <td>{customerItem.reference}</td>
-                                </tr>
-                                <tr>
-                                    <td>VAT Number</td>
-                                    <td>{customerItem.vatNr}</td>
-                                </tr>
-                                <tr>
-                                    <td>Email</td>
-                                    <td>
-                                        <a href={`mailto:${customerItem.email}`}>
-                                            {customerItem.email}
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Website</td>
-                                    <td>
-                                        <a href={customerItem.website} target="_blank" rel="noreferrer">
-                                            {customerItem.website}
-                                        </a>
-                                    </td>
-                                </tr>
-                                
-                            </tbody>
-                        </table>
+                        <FormDisplay data={customerItem} />
                         <button onClick={deleteCustomer}>Delete Customer</button>
                         <Link to={`/customers/${customerId}/edit`}>
                             <button>

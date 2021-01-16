@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../contexts/UserContext'
 import FetchKit from '../data/fetchKit'
+import formFormat from '../data/form@'
 
 export default function CustomerUpdatePage(props) {
     const customerId = props.match.params.id
@@ -16,17 +17,21 @@ export default function CustomerUpdatePage(props) {
         getCustomerItem()
     }, [])
 
-    function renderInput(name, label, type) {
+    function renderInput(name, label, type, key) {
         return (
-            <div>
-                <label>{label}</label>
-                <input
-                    type={type || "text"}
-                    name={name}
-                    value={formData[name] || ""}
-                    onChange={handleOnChange}
-                />
-            </div>
+            <tr key={key}>
+                <td>
+                    <label>{label}</label>
+                </td>
+                <td>
+                    <input
+                        type={type}
+                        name={name}
+                        value={formData[name] || ""}
+                        onChange={handleOnChange}
+                    />
+                </td>
+            </tr>
         )
     }
 
@@ -45,15 +50,14 @@ export default function CustomerUpdatePage(props) {
         <div>
             <h1>Update Customer</h1>
             <form onSubmit={handleOnSubmit}>
-                {renderInput("name", "Customer Name")}
-                {renderInput("email", "Customer Email", "email")}
-                {renderInput("organisationNr", "Organisation Number")}
-                {renderInput("paymentTerm", "Payment Term", "number")}
-                {renderInput("phoneNumber", "Phone Number", "tel")}
-                {renderInput("reference", "Reference")}
-                {renderInput("vatNr", "VAT Number")}
-                {renderInput("website", "Website", "url")}
-                <button type="submit">Update Customer</button>
+                <table>
+                    <tbody>
+                        {formFormat.map((item, index) => {
+                            return renderInput(item.key, item.display, item.type, index)
+                        })}
+                    </tbody>
+                </table>
+                <button type="submit">Save Changes</button>
             </form>
         </div>
     )

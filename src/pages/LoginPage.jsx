@@ -12,6 +12,7 @@ export default function LoginPage() {
     })
     const { loggedIn, setLoggedIn, history, setUserInfo } = useContext(UserContext)
 
+
     function handleOnSubmit(e) {
         e.preventDefault()
         const payload = {
@@ -31,7 +32,7 @@ export default function LoginPage() {
             }
         })
     }
-    
+
     function getUserInfo() {
         FetchKit.getCurrentUserInfo()
         .then(data => {
@@ -41,16 +42,16 @@ export default function LoginPage() {
             }
         })
     }
+    
+    function handleOnChange(e) {
+        setFormData({...formData, [e.target.name]: e.target.value})
+    }
 
     useEffect(() => {
         if(loggedIn) {
             history.push('/home')
         }
     }, [loggedIn])
-
-    function handleOnChange(e) {
-        setFormData({...formData, [e.target.name]: e.target.value})
-    }
 
     return (
         <div>

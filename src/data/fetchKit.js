@@ -38,6 +38,16 @@ export default class FetchKit {
         .then(res => checkResponse(res))
     }
 
+    static getCustomerList() {
+        return fetch(url.customers, {
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization" : `Bearer ${token()}`
+            }
+        })
+        .then(res => checkResponse(res))
+    }
+
     static getCustomerItem(customerId) {
         return fetch(url.customers + customerId +"/", {
             headers: {
@@ -46,6 +56,17 @@ export default class FetchKit {
             }
         })
         .then(res => checkResponse(res))
+    }
+    
+    static createCustomer(formData) {
+        return fetch(url.customers, {
+            method: "POST",
+            body: JSON.stringify(formData),
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization" : `Bearer ${token()}`
+            }
+        })
     }
 
     static updateCustomerItem(customerId, formData) {
@@ -57,19 +78,8 @@ export default class FetchKit {
                 "Authorization" : `Bearer ${token()}`
             }
         })
-        .then(res => checkResponse(res))
     }
-
-    static getCustomerList() {
-        return fetch(url.customers, {
-            headers: {
-                "Content-Type" : "application/json",
-                "Authorization" : `Bearer ${token()}`
-            }
-        })
-        .then(res => checkResponse(res))
-    }
-
+    
     static deleteCustomerItem(customerId) {
         return fetch(url.customers + customerId +"/", {
             method: "DELETE",
@@ -78,17 +88,5 @@ export default class FetchKit {
                 "Authorization" : `Bearer ${token()}`
             }
         })
-    }
-
-    static createCustomer(formData) {
-        return fetch(url.customers, {
-            method: "POST",
-            body: JSON.stringify(formData),
-            headers: {
-                "Content-Type" : "application/json",
-                "Authorization" : `Bearer ${token()}`
-            }
-        })
-        .then(res => checkResponse(res))
     }
 }
