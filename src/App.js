@@ -20,6 +20,9 @@ export default function App() {
   const history = useHistory()
 
   useEffect(() => {
+    if (history.location.pathname == "/") {
+      history.push("/login")
+    }
     if (localStorage.getItem("token")) {
       checkIfSignedIn()
     }
@@ -111,4 +114,13 @@ TODO dölja hela sidor = helfärgad bakgrund med spinner och lite delay
 EXTRAs
 sökfunktion, kolla exempelvis https://www.youtube.com/watch?v=XZScIWYIkNw 
 
+ Krav:
+
+TODO Skapa styled components, Ärv CSS-properties en styled-component
+
+TODO VatNR - Validera så att detta fält innehåller "SE" och därefter 10 siffror
+
+TODO paymentTerm (betalningsvillkor i dagar. En siffra måste alltid skickas med)
+
+TODO Visa vilken användare som är inloggad ( api/v1/me ) Visa den inloggade användarens email, förnamn och efternamn.
 */
