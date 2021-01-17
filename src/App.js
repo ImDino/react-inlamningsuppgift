@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, Route, Switch, useHistory } from 'react-router-dom'
+import { Route, Switch, useHistory } from 'react-router-dom'
 import { UserContext } from './contexts/UserContext'
 
 import CustomerCreatePage from './pages/CustomerCreatePage'
@@ -11,12 +11,14 @@ import ProfilePage from './pages/ProfilePage'
 
 import 'bootstrap/js/src/collapse.js';
 import FetchKit from './data/fetchKit'
+import Navbar from './components/Navbar'
 
 export default function App() {
-  const [ customerList, setCustomerList ] = useState(null)
   const [ loggedIn, setLoggedIn ] = useState(false)
   const [ userInfo , setUserInfo ] = useState(null)
+  const [ customerList, setCustomerList ] = useState(null)
   const [ listUpToDate, setListUpToDate ] = useState(false)
+  const [ tempCustomer, setTempCustomer ] = useState()
   const history = useHistory()
 
   useEffect(() => {
@@ -40,42 +42,19 @@ export default function App() {
       }
     })
   }
-
-  function logOut() {
-    setLoggedIn(false)
-    setListUpToDate(false)
-    localStorage.removeItem("token")
-  }
   
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        {loggedIn
-        ?(
-          <Link to="/home" className="navbar-brand">My App</Link>
-        )
-        :(
-          <span className="navbar-brand">My App</span>
-        )}
-        {loggedIn &&
-        (
-        <>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div className="navbar-nav">
-            <Link to="/home">Home</Link>
-            <Link to="/customers/create">Create Customer</Link>
-            <Link to="/profile">My Profile ({userInfo && userInfo.firstName+" "+userInfo.lastName})</Link>
-            <Link onClick={logOut} to="/login">Log out</Link>
-          </div>
-        </div>
-        </>
-        )}
-      </nav>
+    <UserContext.Provider 
+      value={{loggedIn, setLoggedIn,
+              customerList, setCustomerList,
+              listUpToDate, setListUpToDate,
+              history, userInfo, setUserInfo,
+              tempCustomer, setTempCustomer}}
+      >
+      <div>
+        <Navbar />
+        <div className="container d-flex justify-content-center mt-5 mb-5">
 
-      <UserContext.Provider value={{customerList, setCustomerList, loggedIn, setLoggedIn, history, userInfo, setUserInfo, listUpToDate, setListUpToDate}}>
         <Switch>
 
           <Route path="/login">
@@ -99,9 +78,9 @@ export default function App() {
           <Route path="/customers/:id" component={CustomerDetailPage} />
 
         </Switch>
-      </UserContext.Provider>
-
-    </div>
+        </div>
+      </div>
+    </UserContext.Provider>
   )
 }
 
@@ -111,16 +90,13 @@ export default function App() {
 TODO gör så loggedIn styr om innehåll visas
 TODO dölja hela sidor = helfärgad bakgrund med spinner och lite delay
 
-EXTRAs
-sökfunktion, kolla exempelvis https://www.youtube.com/watch?v=XZScIWYIkNw 
-
- Krav:
-
-TODO Skapa styled components, Ärv CSS-properties en styled-component
+TODO OBS gör så valideringen är simpel, matas felmeddelande längst ner bara..
 
 TODO VatNR - Validera så att detta fält innehåller "SE" och därefter 10 siffror
 
 TODO paymentTerm (betalningsvillkor i dagar. En siffra måste alltid skickas med)
+TODO OBS see till att minus eller 0 inte går
 
-TODO Visa vilken användare som är inloggad ( api/v1/me ) Visa den inloggade användarens email, förnamn och efternamn.
+TODO Skapa styled components, Ärv CSS-properties en styled-component
+
 */

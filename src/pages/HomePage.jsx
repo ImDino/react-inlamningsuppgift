@@ -24,9 +24,10 @@ export default function HomePage() {
 
     return (
         <div>
+            <h1 className="mb-5 text-center">Customers</h1>
             {listUpToDate
                 ?(
-                    customerList.map((item, index) => {
+                    customerList.map((item) => {
                         return <CustomerListItem key={item.id} customerData={item} />
                     })
                 )

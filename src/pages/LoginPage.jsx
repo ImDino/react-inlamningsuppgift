@@ -7,11 +7,8 @@ export default function LoginPage() {
         email: "Dino.Pacariz@yh.nackademin.se",
         password: "javascriptoramverk"
     })
-    const [ loginStatus , setLoginStatus ] = useState({
-        successful: true
-    })
+    const [ loginStatus , setLoginStatus ] = useState({successful: true})
     const { loggedIn, setLoggedIn, history, setUserInfo } = useContext(UserContext)
-
 
     function handleOnSubmit(e) {
         e.preventDefault()

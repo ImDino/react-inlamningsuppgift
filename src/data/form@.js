@@ -1,54 +1,51 @@
 const formFormat = [
     {
-        
         key: "name",
         display: "Customer Name",
-        type: "text"
-        
+        type: "text",
+        required: true
     },
     {
-        
         key: "email",
         display: "Customer Email",
-        type: "email"
-        
+        type: "email",
+        required: false
     },
     {
-        
         key: "organisationNr",
         display: "Organisation Number",
-        type: "text"
-        
+        type: "text",
+        required: false
     },
     {
         key: "paymentTerm",
         display: "Payment Term",
-        type: "number"
-        
+        type: "number",
+        required: true
     },
     { 
         key: "phoneNumber",
-        display: "phoneNumber",
-        type: "tel"
-        
+        display: "Phone Number",
+        type: "tel",
+        required: false
     },
     { 
         key: "reference",
-        display: "reference",
-        type: "text"
-        
+        display: "Reference",
+        type: "text",
+        required: false
     },
     { 
         key: "vatNr",
         display: "VAT Number",
-        type: "text"
-        
+        type: "text",
+        required: true
     },
     { 
         key: "website",
         display: "Website",
-        type: "url"
-        
+        type: "url",
+        required: false
     }
 ]
 

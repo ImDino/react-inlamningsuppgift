@@ -8,13 +8,14 @@ export default function CustomerDetailPage(props) {
     const customerId = props.match.params.id
     const [ customerItem, setCustomerItem ] = useState(null)
     const [ itemExists, setItemExists] = useState(true)
-    const { history , setListUpToDate } = useContext(UserContext)
+    const { history , setListUpToDate, setTempCustomer } = useContext(UserContext)
 
     function getCustomerItem() {
         FetchKit.getCustomerItem(customerId)
         .then(data => {
             if(data) {
                 setCustomerItem(data)
+                setTempCustomer(data)
             }
             else {
                 setItemExists(false)
@@ -47,9 +48,7 @@ export default function CustomerDetailPage(props) {
                         <FormDisplay data={customerItem} />
                         <button onClick={deleteCustomer}>Delete Customer</button>
                         <Link to={`/customers/${customerId}/edit`}>
-                            <button>
-                                    Update Customer
-                            </button>
+                            <button>Update Customer</button>
                         </Link>
                     </div>
                 )

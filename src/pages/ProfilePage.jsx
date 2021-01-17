@@ -2,11 +2,12 @@ import React, { useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
 
 export default function ProfilePage() {
-    const { userInfo , history, setLoggedIn, setListUpToDate } = useContext(UserContext)
+    const { userInfo , history, setLoggedIn, setListUpToDate, setUserInfo } = useContext(UserContext)
 
     function logOut() {
         setLoggedIn(false)
         setListUpToDate(false)
+        setUserInfo(null)
         localStorage.removeItem("token")
         history.push("/login")
     }
@@ -20,7 +21,7 @@ export default function ProfilePage() {
                 <p>Email: {userInfo.email}</p>
                 </>
             )}
-            <button onClick={logOut} className="btn">Log out</button>
+            <button onClick={logOut}>Log out</button>
         </div>
     )
 }
