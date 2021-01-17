@@ -25,7 +25,7 @@ export default function App() {
     if (history.location.pathname === "/") {
       history.push("/login")
     }
-    else if (localStorage.getItem("token")) {
+    if (localStorage.getItem("token")) {
       checkIfSignedIn()
     }
     else {
