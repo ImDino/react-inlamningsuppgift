@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
 import formFormat from '../data/form@'
 import FormRequirements from '../data/formRequirements'
@@ -19,8 +19,7 @@ const WarningText = styled.div`
 `
 
 export default function FormEdit() {
-    const { formData, setFormData } = useContext(UserContext)
-    const [ alert, setAlert ] = useState({})
+    const { formData, setFormData, alert, setAlert } = useContext(UserContext)
     
     function handleOnChange(e) {
         setFormData({...formData, [e.target.name]: e.target.value})
@@ -45,7 +44,7 @@ export default function FormEdit() {
                     className="w-100 rounded p-2"
                     warning={alert[name]}
                 />
-                <WarningText>{alert[name] && FormRequirements.message()[name]}</WarningText>
+                <WarningText>{alert[name] && FormRequirements.message([name])}</WarningText>
             </div>
         )
     }

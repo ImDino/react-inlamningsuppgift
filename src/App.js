@@ -87,14 +87,7 @@ export default function App() {
 /*
 
 
-TODO gör så loggedIn styr om innehåll visas
-TODO dölja hela sidor = helfärgad bakgrund med spinner och lite delay
-
-TODO OBS gör så valideringen är simpel, matas felmeddelande längst ner bara..
-
-TODO paymentTerm (betalningsvillkor i dagar. En siffra måste alltid skickas med)
-TODO OBS see till att minus eller 0 inte går
-
 TODO Skapa styled components, Ärv CSS-properties en styled-component
 
+TODO ta bort förinställd epost o lösen
 */

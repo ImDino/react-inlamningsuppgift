@@ -1,8 +1,9 @@
+import formFormat from '../data/form@'
 
 export const text = {
-    name: "You must enter a name",
-    paymentTerm: "wrong payment term",
-    vatNr: `Must start with "SE" (capital letters) followed by 10 numbers`
+    name: "You must enter a name.",
+    paymentTerm: "Must be a number higher than 0.",
+    vatNr: `Must start with "SE" (capital letters) followed by 10 digits.`
 }
 
 export default class FormRequirements {
@@ -14,6 +15,19 @@ export default class FormRequirements {
         else return false
     }
 
+    static checkAll(input) {
+        let result = {}
+        formFormat.forEach((item) => {
+            if(item.required) {
+                if (input[item.key] === null || input[item.key] === undefined) {
+                    result[item.key] = true
+                }
+                else result[item.key] = this.check(item.key, input[item.key])
+            }
+        })
+        return result
+    }
+
     static name(input) {
         if (input==="") {
             return true
@@ -22,7 +36,7 @@ export default class FormRequirements {
     }
 
     static paymentTerm(input) {
-        if (input==="") {
+        if (input==="" || input < 1) {
             return true
         }
         else return false
@@ -39,7 +53,7 @@ export default class FormRequirements {
         else return true
     }
 
-    static message(state) {
-        return text
+    static message(field) {
+        return text[field]
     }
 }
