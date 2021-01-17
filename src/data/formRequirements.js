@@ -1,4 +1,9 @@
 
+export const text = {
+    name: "You must enter a name",
+    paymentTerm: "wrong payment term",
+    vatNr: `Must start with "SE" (capital letters) followed by 10 numbers`
+}
 
 export default class FormRequirements {
 
@@ -34,4 +39,7 @@ export default class FormRequirements {
         else return true
     }
 
+    static message(state) {
+        return text
+    }
 }

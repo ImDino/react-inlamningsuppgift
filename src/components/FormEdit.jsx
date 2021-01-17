@@ -13,6 +13,11 @@ const DynamicInput = styled.input`
     }
 `
 
+const WarningText = styled.div`
+    font-size: 0.8em;
+    color: red;
+`
+
 export default function FormEdit() {
     const { formData, setFormData } = useContext(UserContext)
     const [ alert, setAlert ] = useState({})
@@ -40,7 +45,7 @@ export default function FormEdit() {
                     className="w-100 rounded p-2"
                     warning={alert[name]}
                 />
-                {/* <div>warning text</div> */}
+                <WarningText>{alert[name] && FormRequirements.message()[name]}</WarningText>
             </div>
         )
     }

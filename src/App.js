@@ -92,8 +92,6 @@ TODO dölja hela sidor = helfärgad bakgrund med spinner och lite delay
 
 TODO OBS gör så valideringen är simpel, matas felmeddelande längst ner bara..
 
-TODO VatNR - Validera så att detta fält innehåller "SE" och därefter 10 siffror
-
 TODO paymentTerm (betalningsvillkor i dagar. En siffra måste alltid skickas med)
 TODO OBS see till att minus eller 0 inte går
 
