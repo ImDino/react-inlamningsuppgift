@@ -16,6 +16,7 @@ const DynamicInput = styled.input`
 const WarningText = styled.div`
     font-size: 0.8em;
     color: red;
+    height: 16px;
 `
 
 export default function FormEdit() {
@@ -28,8 +29,8 @@ export default function FormEdit() {
 
     function renderInput(name, label, type, key, required) {
         return (
-            <div key={key} className="mb-3">
-                <label htmlFor={key} className="">{label}{required && "*"}</label>
+            <div key={key} className="mb-1">
+                <label htmlFor={key}>{label}{required && "*"}</label>
                 <DynamicInput
                     id={key}
                     type={type}
