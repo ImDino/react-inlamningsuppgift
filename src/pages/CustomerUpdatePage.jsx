@@ -3,6 +3,7 @@ import FormEdit from '../components/FormEdit'
 import { UserContext } from '../contexts/UserContext'
 import FetchKit from '../data/fetchKit'
 import FormRequirements from '../data/formRequirements'
+import { MyButton } from "../style/buttons";
 
 export default function CustomerUpdatePage(props) {
     const customerId = props.match.params.id
@@ -52,7 +53,7 @@ export default function CustomerUpdatePage(props) {
                     <FormEdit />
                 </UserContext.Provider>
                 <p>*required</p>
-                <button type="submit">Save Changes</button>
+                <MyButton type="submit">Save Changes</MyButton>
                 <p>{missMessage && missMessage}</p>
             </form>
             </div>

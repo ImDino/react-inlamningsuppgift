@@ -16,7 +16,7 @@ export default function Navbar() {
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             {loggedIn
             ?(
-                <Link to="/home" className="navbar-brand">My App</Link>
+                <Link to="/home" className="navbar-brand m-2 ml-3 mr-3">My App</Link>
             )
             :(
                 <span className="navbar-brand">My App</span>
@@ -32,12 +32,12 @@ export default function Navbar() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div className="navbar-nav">
-                        <Link to="/home">Home</Link>
-                        <Link to="/customers/create">Create Customer</Link>
-                        <Link to="/profile">
+                        <Link className="m-2 ml-3" to="/home">Home</Link>
+                        <Link className="m-2 ml-3" to="/customers/create">Create Customer</Link>
+                        <Link className="m-2 ml-3" to="/profile">
                             My Profile ({userInfo && userInfo.firstName+" "+userInfo.lastName})
                         </Link>
-                        <Link onClick={logOut} to="/login">Log out</Link>
+                        <Link className="m-2 ml-3" onClick={logOut} to="/login">Log out</Link>
                     </div>
                 </div>
             </>

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
+import { RedButton } from "../style/buttons";
 
 export default function ProfilePage() {
     const { userInfo , history, setLoggedIn, setListUpToDate, setUserInfo } = useContext(UserContext)
@@ -13,15 +14,15 @@ export default function ProfilePage() {
     }
     
     return (
-        <div>
-            <h1>My profile</h1>
+        <div className="d-flex flex-column align-items-center">
+            <h1 className="mb-5">My profile</h1>
             {userInfo && (
                 <>
                 <p>Name: {userInfo.firstName+" "+userInfo.lastName}</p>
                 <p>Email: {userInfo.email}</p>
                 </>
             )}
-            <button onClick={logOut}>Log out</button>
+            <RedButton onClick={logOut} className="mt-3">Log out</RedButton>
         </div>
     )
 }

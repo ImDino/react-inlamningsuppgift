@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import FormDisplay from '../components/FormDisplay'
 import { UserContext } from '../contexts/UserContext'
 import FetchKit from '../data/fetchKit'
+import { MyButton , RedButton} from "../style/buttons";
 
 export default function CustomerDetailPage(props) {
     const customerId = props.match.params.id
@@ -43,13 +44,15 @@ export default function CustomerDetailPage(props) {
             )}
             {customerItem
                 ?(
-                    <div>
-                        <h1>{customerItem.name}</h1>
+                    <div className="d-flex flex-column align-items-center">
+                        <h1 className="mb-5 text-center">{customerItem.name}</h1>
                         <FormDisplay data={customerItem} />
-                        <button onClick={deleteCustomer}>Delete Customer</button>
-                        <Link to={`/customers/${customerId}/edit`}>
-                            <button>Update Customer</button>
-                        </Link>
+                        <div className="mt-5 d-flex justify-content-around w-100">
+                            <RedButton onClick={deleteCustomer}>Delete Customer</RedButton>
+                            <Link to={`/customers/${customerId}/edit`}>
+                                <MyButton>Update Customer</MyButton>
+                            </Link>
+                        </div>
                     </div>
                 )
                 :(

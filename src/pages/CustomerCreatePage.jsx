@@ -3,6 +3,7 @@ import FormEdit from '../components/FormEdit'
 import { UserContext } from '../contexts/UserContext'
 import FetchKit from '../data/fetchKit'
 import FormRequirements from '../data/formRequirements'
+import { MyButton } from "../style/buttons";
 
 export default function CustomerCreatePage() {
     const [ formData , setFormData] = useState({})
@@ -29,13 +30,13 @@ export default function CustomerCreatePage() {
 
     return (
         <div>
-            <h1>Create Customer</h1>
+            <h1 className="mb-5 text-center">Create Customer</h1>
             <form onSubmit={handleOnSubmit}>
                 <UserContext.Provider value={{formData, setFormData, alert, setAlert}}>
                     <FormEdit />
                 </UserContext.Provider>
                 <p>*required</p>
-                <button type="submit">Create Customer</button>
+                <MyButton type="submit">Create Customer</MyButton>
                 <p>{missMessage && missMessage}</p>
             </form>
         </div>

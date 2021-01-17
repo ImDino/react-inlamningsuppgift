@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../contexts/UserContext'
 import FetchKit from '../data/fetchKit'
+import { MyButton } from "../style/buttons";
 
 export default function LoginPage() {
     const [ formData, setFormData ] = useState({
@@ -57,7 +58,7 @@ export default function LoginPage() {
                 <input name="email" onChange={handleOnChange} />
                 <label>Password</label>
                 <input name="password" onChange={handleOnChange} />
-                <button type="submit">Log in</button>
+                <MyButton type="submit">Log in</MyButton>
                 {loginStatus.successful === false &&
                     <p>Login failed, please enter a valid Email {"&"} Password </p>
                 }

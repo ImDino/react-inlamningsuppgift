@@ -32,7 +32,7 @@ function renderRow(name, value, type, index) {
 
 export default function FormDisplay({data}) {
     return (
-        <table>
+        <table className="table-striped">
             <tbody>
                 {formFormat.map((item, index) => {
                     return renderRow(item.display, data[item.key], item.type, index)
