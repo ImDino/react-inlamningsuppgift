@@ -83,11 +83,3 @@ export default function App() {
     </UserContext.Provider>
   )
 }
-
-/*
-
-
-TODO Skapa styled components, Ärv CSS-properties en styled-component
-
-TODO ta bort förinställd epost o lösen
-*/
